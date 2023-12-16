@@ -52,7 +52,7 @@ order by count(rental_id) desc;
 
 select c.customer_id, concat(c.first_name, ' ', c.last_name) as 'customer_name', count(r.rental_id) as 'number_of_rentals'
 from sakila.customer c
-join sakila.rentals_may r using(customer_id)
+left join sakila.rentals_may r using(customer_id)
 group by c.customer_id, c.first_name, c.last_name
 order by count(rental_id) desc;
 
@@ -64,7 +64,7 @@ order by count(rental_id) desc;
 
 select c.customer_id, concat(c.first_name, ' ', c.last_name) as 'customer_name', count(r.rental_id) as 'number_of_rentals'
 from sakila.customer c
-join sakila.rentals_june r using(customer_id)
+left join sakila.rentals_june r using(customer_id)
 group by c.customer_id, c.first_name, c.last_name
 order by count(rental_id) desc;
 
@@ -81,14 +81,13 @@ select c.customer_id, concat(c.first_name, ' ', c.last_name) as 'customer_name',
 from sakila.customer c
 join (select c.customer_id, count(r.rental_id) as 'number_of_rentals'
 		from sakila.customer c
-		join sakila.rentals_june r using(customer_id)
+		left join sakila.rentals_june r using(customer_id)
 		group by c.customer_id
 		order by count(rental_id) desc
 	) rj using(customer_id)
 join (select c.customer_id, count(r.rental_id) as 'number_of_rentals'
 		from sakila.customer c
-		join sakila.rentals_may r using(customer_id)
+		left join sakila.rentals_may r using(customer_id)
 		group by c.customer_id
 		order by count(rental_id) desc
 	) rm using(customer_id);
-
